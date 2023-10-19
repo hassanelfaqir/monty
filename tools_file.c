@@ -13,7 +13,7 @@ void f_open_f(char *f_name)
 	if (f_name == NULL || food == NULL)
 		error(2, f_name);
 
-	read_file(fd);
+	r_file(food);
 	fclose(food);
 }
 
@@ -32,7 +32,7 @@ void r_file(FILE *food)
 
 	for (l_num = 1; getline(&buffer, &len, food) != -1; l_num++)
 	{
-		f = parse_line(buffer, l_num, f);
+		f = p_line(buffer, l_num, f);
 	}
 	free(buffer);
 }
@@ -59,14 +59,14 @@ int p_line(char *buffer, int l_num, int f)
 	opcode = strtok(buffer, del);
 	if (opcode == NULL)
 		return (f);
-	value = strtok(NULL, del);
+	val = strtok(NULL, del);
 
 	if (strcmp(opcode, "stack") == 0)
 		return (0);
 	if (strcmp(opcode, "queue") == 0)
 		return (1);
 
-	find_func(opcode, val, l_num, f);
+	f_func(opcode, val, l_num, f);
 	return (f);
 }
 
@@ -144,12 +144,12 @@ void c_function(op_func fun, char *o, char *vall, int ln, int f)
 		}
 		if (vall == NULL)
 			error(5, ln);
-		for (s = 0; vall[s] != '\0'; i++)
+		for (s = 0; vall[s] != '\0'; s++)
 		{
-			if (isdigit(val[s]) == 0)
+			if (isdigit(vall[s]) == 0)
 				error(5, ln);
 		}
-		node = create_node(atoi(val) * fla);
+		node = create_node(atoi(vall) * fla);
 		if (f == 0)
 			fun(&node, ln);
 		if (f == 1)

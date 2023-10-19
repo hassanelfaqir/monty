@@ -19,7 +19,7 @@ void error(int has, ...)
 	int line_num;
 
 	va_start(arg, has);
-	switch (ha)
+	switch (has)
 	{
 		case 1:
 			fprintf(stderr, "USAGE: monty file\n");
